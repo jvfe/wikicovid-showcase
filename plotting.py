@@ -74,5 +74,4 @@ def create_symptom_network():
 
     nx.set_node_attributes(symptom_graph, node_attrs.to_dict(orient="index"))
 
-    tooltip = [("Symptom or Class", "@index"), ("Item", "@qid")]
-    plot_network(symptom_graph, tooltip=tooltip, layout=nx.spring_layout)
+    return symptom_graph

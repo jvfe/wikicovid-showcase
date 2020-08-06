@@ -1,16 +1,16 @@
 # %%
-from utils import wikidata_from_file, parse_query_results
-from plotting import create_symptom_network
+from utils import wikidata_from_file
 import pandas as pd
-import networkx as nx
-
 
 # %%
-create_symptom_network()
+interv_query = wikidata_from_file(
+    "queries/clinicaltrialsByIntervention.rq", ["interventionLabel", "trials"]
+)
+vacc = wikidata_from_file("queries/vaccines.rq", ["type", "typeLabel"])
 
 # %%
-qres = wikidata_from_file("queries/covidpathways.rq")
-
-df = parse_query_results(qres, "virusLabel", "componentLabel", "pathwayLabel")
-
-# %%
+# Group pathways by component and virus, visualize those
+# Plot those that have very obvious quantitative properties, e.g. vaccines quantities, interventions,
+# literature-supported interactions, etc.
+# Try visualizing the symptom network as a dendrogram (improbable) - Maybe ete3?
+# Plot table of coronaviruses proteins
