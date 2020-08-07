@@ -9,14 +9,25 @@ def plot_interventions(min_mentions):
 
     interv_query["trials"] = interv_query["trials"].astype(int)
     interv_query["Percent"] = interv_query["trials"] / sum(interv_query["trials"])
-    interv_query = interv_query[interv_query["trials"] >= min_mentions]
+    interv_query = interv_query[
+        (interv_query["trials"] >= min_mentions)
+        & (interv_query["interventionLabel"] != "COVID-19")
+    ]
 
     plot = (
         alt.Chart(interv_query)
         .mark_bar()
         .encode(
-            x=alt.X("Percent:Q", axis=alt.Axis(format=".0%")),
-            y=alt.Y("interventionLabel:N", sort="x"),
+            x=alt.X(
+                "Percent:Q",
+                axis=alt.Axis(format=".0%"),
+                title="Percentage of total annotated clinical trials",
+            ),
+            y=alt.Y("interventionLabel:N", sort="x", title=None),
+            tooltip=[
+                alt.Tooltip("trials:Q", title="# of trials"),
+                alt.Tooltip("interventionLabel:N", title="Intervention"),
+            ],
         )
     )
 
@@ -35,8 +46,12 @@ def plot_vaccine_types():
         alt.Chart(vacc_percs)
         .mark_bar()
         .encode(
-            x=alt.X("typeLabel:Q", axis=alt.Axis(format=".0%")),
-            y=alt.Y("index:N", sort="x"),
+            x=alt.X(
+                "typeLabel:Q",
+                axis=alt.Axis(format=".0%"),
+                title="Percentage of total vaccine candidates",
+            ),
+            y=alt.Y("index:N", sort="x", title=None),
         )
     )
 
@@ -58,7 +73,6 @@ def plot_literature_interactions():
             "Interferon induced transmembrane protein ": "IFITM",
             "BCL2 associated X, apoptosis regulator": "BAX",
             "Alanyl aminopeptidase, membrane": "AAP",
-            "Alanyl aminopeptidase, membrane": "AAP",
             "Peptidylprolyl isomerase A": "PPIA",
             "Dipeptidyl peptidase 4": "DPP4",
             "severe acute respiratory syndrome-related coronavirus": "SARS-related CoV",
@@ -74,8 +88,15 @@ def plot_literature_interactions():
         .encode(
             x=alt.X("geneLabel:O", title="Gene or protein"),
             y=alt.Y("virusLabel:O", title=None),
-            size=alt.Size("count:Q", title="# of articles"),
+            size=alt.Size(
+                "count:Q", title="# of articles", scale=alt.Scale(range=[100, 300])
+            ),
             color=alt.Color("virusLabel", legend=None),
+            tooltip=[
+                alt.Tooltip("geneLabel:N", title="Gene/protein"),
+                alt.Tooltip("virusLabel:N", title="Virus"),
+                alt.Tooltip("count:Q", title="# of articles"),
+            ],
         )
     )
 
@@ -110,6 +131,7 @@ def plot_pathway_by_virus():
         .encode(
             # x=alt.X("virusLabel:N", title="# of components"),
             y=alt.Y("wikiPathID:N", title=None),
+            x=alt.X("virusLabel:N", title=None),
             color=alt.Color("virusLabel:N", legend=None),
             size=alt.Size(
                 "component:Q", legend=None, scale=alt.Scale(range=[100, 300])
@@ -119,7 +141,6 @@ def plot_pathway_by_virus():
                 alt.Tooltip("component:Q", title="# of components"),
                 alt.Tooltip("pathwayLabel:N", title="Pathway"),
             ],
-            column=alt.Column("virusLabel:N", title=None, spacing=55),
         )
     )
 
