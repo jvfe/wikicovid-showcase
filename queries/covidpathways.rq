@@ -1,4 +1,4 @@
-SELECT ?virus ?virusLabel ?component ?componentLabel ?pathway ?pathwayLabel WHERE {
+SELECT ?virus ?virusLabel ?component ?componentLabel ?pathway ?pathwayLabel ?wikiPathID WHERE {
   VALUES ?virus {
     wd:Q82069695 # SARS-CoV-2
     wd:Q16983360 # HKU1
@@ -10,5 +10,6 @@ SELECT ?virus ?virusLabel ?component ?componentLabel ?pathway ?pathwayLabel WHER
   }
   ?component wdt:P703 ?virus .
   ?pathway wdt:P31 wd:Q4915012 ; wdt:P527 ?component .
+  ?pathway wdt:P2410 ?wikiPathID . 
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en,en". }
 }
