@@ -50,7 +50,11 @@ def parse_query_results(query_result):
     keys = frozenset(chain.from_iterable(data))
 
     for json_key, item in product(data, keys):
-        parsed_results[item].append(json_key[item]["value"])
+        try:
+            parsed_results[item].append(json_key[item]["value"])
+        except:
+            # If there is no data for a key, append a null string
+            parsed_results[item].append("")
 
     results_df = pd.DataFrame.from_dict(parsed_results).replace(
         {"http://www.wikidata.org/entity/": ""}, regex=True

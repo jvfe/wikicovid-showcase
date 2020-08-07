@@ -1,5 +1,0 @@
-SELECT ?symptomLabel ?subclassofLabel ?subclassof ?symptom WHERE {
-  wd:Q84263196 wdt:P780 ?symptom .
-  ?symptom wdt:P279 ?subclassof .
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en,en". }
-}

@@ -1,10 +1,17 @@
-from plotting import *
+from plotting import (
+    plot_interventions,
+    plot_literature_interactions,
+    plot_pathway_by_virus,
+    plot_vaccine_types,
+)
+from utils import wikidata_from_file
 import streamlit as st
 import pandas as pd
 
+st.header("Exploring Wikidata's scientific knowledge about COVID-19")
+
 st.write(
     """
-# Exploring Wikidata's scientific knowledge about COVID-19
 
 This is an exploration of the sort of scientific knowledge we can get and analyse from the largest free structured knowledge base:
 [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page)! - It's also a learning experience in data analysis, SPARQL and streamlit.
@@ -33,6 +40,17 @@ st.altair_chart(plot_literature_interactions(), use_container_width=True)
 
 st.write(
     """
+    # SARS-CoV-2 proteins
+
+    Common bioinformatics tasks, such as protein queries for a specific taxon and ID conversion, are trivial in wikidata.
+    With a simple query, we can easily get all annotated SARS-CoV-2 proteins, as well as some of their IDs. 
+    """
+)
+
+st.dataframe(wikidata_from_file("queries/virusProteins.rq"))
+
+st.write(
+    """
 ## Which drugs are being suggested as possible treatments for COVID-19?
 
 This data comes from annotated clinical trials, they list the intervention being tested, and, as such, these can be quantified, which is what you see below.
@@ -49,7 +67,7 @@ st.altair_chart(plot_interventions(min_ct), use_container_width=True)
 
 st.write(
     """
-## Which biological pathways are coronaviruses in?
+## Which biological pathways are coronaviruses involved in?
 
 The pathways are from [Wikipathways](https://www.wikipathways.org/index.php/WikiPathways), 
 another great open knowledge base, which happens to also be indexed inside of wikidata (Wiki inside of wiki!).
