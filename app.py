@@ -8,7 +8,14 @@ from utils import wikidata_from_file
 import streamlit as st
 import pandas as pd
 
-st.header("Exploring Wikidata's scientific knowledge about COVID-19")
+st.write(
+    """
+    *Made by João Vitor Cavalcante 
+    ([source code](https://github.com/jvfe/wikicovid-showcase) | [github](https://github.com/jvfe) | [twitter](https://twitter.com/jvcavv))*
+    """
+)
+
+st.title("Exploring Wikidata's scientific knowledge about COVID-19")
 
 st.write(
     """
@@ -40,7 +47,7 @@ st.altair_chart(plot_literature_interactions(), use_container_width=True)
 
 st.write(
     """
-    # SARS-CoV-2 proteins
+    ## SARS-CoV-2 proteins
 
     Common bioinformatics tasks, such as protein queries for a specific taxon and ID conversion, are trivial in wikidata.
     With a simple query, we can easily get all annotated SARS-CoV-2 proteins, as well as some of their IDs. 

@@ -1,9 +1,11 @@
 from collections import defaultdict
+from functools import lru_cache
 from itertools import product, chain
 import pandas as pd
 import requests
 
 
+@lru_cache
 def perform_query(query):
     """Performs a SPARQL query to the wikidata endpoint
 
